@@ -1,0 +1,31 @@
+.App {
+	min-height: 100dvh;
+	font-family: sans-serif;
+	background-color: hsl(5deg 80% 90%);
+	display: flex;
+	flex-direction: column;
+}
+
+.stickerpad {
+	flex: 1;
+	background-color: hsl(260deg 70% 92%);
+	position: relative;
+	overflow: hidden;
+}
+
+.sticker {
+	position: absolute;
+	left: var(--x);
+	top: var(--y);
+	width: var(--width);
+	height: var(--height);
+	transform: translate(-50%, -50%);
+	background-color: transparent;
+	border: none;
+	
+}
+
+.result {
+	max-height: 200px;
+	overflow: auto;
+}

@@ -1,0 +1,24 @@
+{
+    "type": "StickerPad",
+    "props": {
+      "stickersField": "placedStickers",
+      "className": "stickerpad"
+    },
+    "children": [
+      {
+        "type": "Iterator",
+        "props": {
+          "dataArrField": "placedStickers"
+        },
+        "children": [
+          {
+            "type": "Sticker",
+            "props": {
+              "className": "sticker",
+              "stickersField": "placedStickers"
+            }
+          }
+        ]
+      }
+    ]
+  }
