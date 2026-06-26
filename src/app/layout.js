@@ -1,5 +1,5 @@
-import "./globals.css";
-
+import "./reset.css";
+import "../content/shopping-list.css";
 
 export const metadata = {
   title: "Shopping List",

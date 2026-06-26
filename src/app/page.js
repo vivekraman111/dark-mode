@@ -1,8 +1,7 @@
-import "../content/sticker-pad.css";
 import DataProviderGeneric from "../framework/DataProviderGeneric";
 import { renderNode } from "../framework/PostRenderer";
-import post from "../content/sticker-pad.json";
-import data from "../content/sticker-pad-data.json";
+import post from "../content/shopping-list.json";
+import data from "../content/shopping-list-data.json";
 
 export default function Home() {
   return (

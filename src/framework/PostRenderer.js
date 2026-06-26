@@ -1,15 +1,11 @@
 import React from "react";
 import {
-  StickerPad,
-  Sticker,
   Item,
   AddItem
 } from "../platform/client";
 import Iterator from "./Iterator";
 
 const componentMap = {
-  StickerPad,
-  Sticker,
   Iterator,
   Item,
   AddItem
@@ -22,22 +18,38 @@ export function renderNode(node) {
     return node.value;
   }
 
-  const Component = componentMap[node.type];
-
-  if (!Component) {
-    console.warn(`Unknown component type: ${node.type}`);
-    return null;
-  }
-
   let children;
 
-  if (node.children?.length === 1 && node.children[0].type === "Text") {
+  if (
+    node.children?.length === 1 &&
+    node.children[0].type === "Text"
+  ) {
     children = node.children[0].value;
   } else {
     children = node.children?.map((child, index) => (
-      <React.Fragment key={index}>{renderNode(child)}</React.Fragment>
+      <React.Fragment key={index}>
+        {renderNode(child)}
+      </React.Fragment>
     ));
   }
 
-  return <Component {...node.props}>{children}</Component>;
+  let Component = componentMap[node.type];
+
+  const isHtmlElement =
+  node.type[0] === node.type[0].toLowerCase();
+
+  if (!Component) {
+    if (isHtmlElement) {
+      Component = node.type;
+    } else {
+      console.warn(`Unknown component type: ${node.type}`);
+      return null;
+    }
+  }
+
+  return React.createElement(
+    Component,
+    node.props,
+    children
+  );
 }
