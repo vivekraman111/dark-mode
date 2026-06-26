@@ -2,7 +2,7 @@ import "./globals.css";
 
 
 export const metadata = {
-  title: "Sticker Pad",
+  title: "Shopping List",
   description: "Prototype for the react-content design pattern",
 };
 

@@ -1,7 +1,9 @@
 import React from "react";
 import {
   StickerPad,
-  Sticker
+  Sticker,
+  Item,
+  AddItem
 } from "../platform/client";
 import Iterator from "./Iterator";
 
@@ -9,6 +11,8 @@ const componentMap = {
   StickerPad,
   Sticker,
   Iterator,
+  Item,
+  AddItem
 };
 
 export function renderNode(node) {
