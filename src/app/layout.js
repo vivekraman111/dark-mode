@@ -2,7 +2,7 @@ import "./reset.css";
 import "../content/shopping-list.css";
 
 export const metadata = {
-  title: "Shopping List",
+  title: "<Enter project name>",
   description: "Prototype for the react-content design pattern",
 };
 
