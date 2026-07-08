@@ -1,37 +1,12 @@
 {
-    "type": "div",
-    "props": {
-      "className": "shopping-list"
-    },
-    "children": [
-      {
-        "type": "div",
-        "props": {
-          "className": "items"
-        },
-        "children": [
-          {
-            "type": "Iterator",
-            "props": {
-              "dataArrField": "items"
-            },
-            "children": [
-              {
-                "type": "Item",
-                "props": {
-                  "className": "item"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "type": "AddItem",
-        "props": {
-          "className": "add-item",
-          "itemArrField": "items"
-        }
-      }
-    ]
-  }
+  "type": "div",
+  "props": {
+    "className": "project-name"
+  },
+  "children": [
+    {
+      "type": "Text",
+      "value": "Hello"
+    }
+  ]
+}

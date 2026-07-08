@@ -1,8 +1,8 @@
 import "./reset.css";
-import "../content/shopping-list.css";
+import "../content/styles.css";
 
 export const metadata = {
-  title: "<Enter project name>",
+  title: "Blank template for react-content examples",
   description: "Prototype for the react-content design pattern",
 };
 

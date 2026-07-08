@@ -1,7 +1,7 @@
 import DataProviderGeneric from "../framework/DataProviderGeneric";
 import { renderNode } from "../framework/PostRenderer";
-import post from "../content/shopping-list.json";
-import data from "../content/shopping-list-data.json";
+import post from "../content/post.json";
+import data from "../content/data.json";
 
 export default function Home() {
   return (

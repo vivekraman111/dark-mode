@@ -1,14 +1,11 @@
 import React from "react";
 import {
-  Item,
-  AddItem
+  
 } from "../platform/client";
 import Iterator from "./Iterator";
 
 const componentMap = {
-  Iterator,
-  Item,
-  AddItem
+
 };
 
 export function renderNode(node) {
