@@ -6,7 +6,7 @@
   "children": [
     {
       "type": "Text",
-      "value": "Hello"
+      "value": "Hello World!"
     }
   ]
 }
