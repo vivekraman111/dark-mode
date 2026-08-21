@@ -1,8 +1,11 @@
+// DataProviderGeneric.js
 "use client";
 
 import React from "react";
 import { produce } from "immer";
 import { DataExtensionsContext } from "./DataProviderExtensions";
+import { useFieldMapping, resolveFieldName}
+  from "./FieldMappingProvider";
 
 const DataContext = React.createContext(null);
 const DataApiContext = React.createContext(null);
@@ -52,49 +55,89 @@ export default function DataProviderGeneric({ schema, children }) {
   );
 }
 
-export function useData(path, options = {}) {
-  const { includeSourceIndex = false } = options;
-
-  const data = React.use(DataContext);
-  const { derivedFields } = React.use(DataExtensionsContext);
-
-  if (!data) {
-    throw new Error("useData must be used inside DataProviderGeneric");
-  }
+export function useResolvedPath(path) {
+  const fieldNameMapping = useFieldMapping();
 
   if (path == null) {
-    return data;
+    return path;
   }
 
   if (Array.isArray(path)) {
-    return path.map((p) => getByPath(data, derivedFields, p, options));
+    return path.map((p) =>
+      resolveFieldName(p, fieldNameMapping)
+    );
   }
 
-  return getByPath(data, derivedFields, path, options);
+  return resolveFieldName(path, fieldNameMapping);
+}
+
+export function useData(path, options = {}) {
+  const data = React.use(DataContext);
+  const { derivedFields } = React.use(DataExtensionsContext);
+
+  const resolvedPath = useResolvedPath(path);
+
+  if (!data) {
+    throw new Error(
+      "useData must be used inside DataProviderGeneric"
+    );
+  }
+
+  if (resolvedPath == null) {
+    return data;
+  }
+
+  if (Array.isArray(resolvedPath)) {
+    return resolvedPath.map((p) =>
+      getByPath(data, derivedFields, p, options)
+    );
+  }
+
+  return getByPath(
+    data,
+    derivedFields,
+    resolvedPath,
+    options
+  );
 }
 
 export function useField(path, options = {}) {
-  const { includeSourceIndex = false } = options;
-
   const value = useData(path, options);
+
+  const resolvedPath = useResolvedPath(path);
+
   const { derivedFields } = React.use(DataExtensionsContext);
   const api = React.use(DataApiContext);
 
   if (!api) {
-    throw new Error("useField must be used inside DataProviderGeneric");
+    throw new Error(
+      "useField must be used inside DataProviderGeneric"
+    );
   }
 
   const { setField } = api;
 
-  const derivedField = derivedFields
-    ? navigatePath(derivedFields, path)
-    : undefined;
+  let derivedField;
 
-  if (derivedField?.editable && !derivedField.sourceField) {
-    throw new Error(`Editable derived field "${path}" requires sourceField`);
+  if (resolvedPath != null && derivedFields) {
+    derivedField = navigatePath(
+      derivedFields,
+      resolvedPath
+    );
   }
 
-  const writePath = derivedField?.editable ? derivedField.sourceField : path;
+  if (
+    derivedField?.editable &&
+    !derivedField.sourceField
+  ) {
+    throw new Error(
+      `Editable derived field "${resolvedPath}" requires sourceField`
+    );
+  }
+
+  const writePath = derivedField?.editable
+    ? derivedField.sourceField
+    : resolvedPath;
 
   const setValue = React.useCallback(
     (valueOrUpdater) => {
@@ -119,36 +162,42 @@ function getByPath(data, derivedFields = null, path, options = {}) {
   }
 
   if (result === undefined && derivedFields) {
-    const derivedField = navigatePath(derivedFields, path);
-    const { sourceField, editable, fn } = derivedField;
-    if (sourceField && editable && fn && includeSourceIndex) {
-      const tracedData = produce(data, (draft) => {
-        const sourceArray = navigatePath(draft, sourceField);
+    let derivedField = navigatePath(derivedFields, path);
+    if(derivedField) {
+      if (typeof derivedField === "function") {
+          derivedField = { fn: derivedField };
+      }
+      
+      const { sourceField, editable, fn } = derivedField;
+      if (sourceField && editable && fn && includeSourceIndex) {
+        const tracedData = produce(data, (draft) => {
+          const sourceArray = navigatePath(draft, sourceField);
 
-        const tracedArray = sourceArray.map((value, sourceIndex) =>
-          attachMetadata(value, sourceIndex)
-        );
+          const tracedArray = sourceArray.map((value, sourceIndex) =>
+            attachMetadata(value, sourceIndex)
+          );
 
-        setByPath(draft, sourceField, tracedArray);
-      });
+          setByPath(draft, sourceField, tracedArray);
+        });
 
-      const tracedResult = fn(tracedData);
+        const tracedResult = fn(tracedData);
 
-      result = tracedResult.map((tracedValue) => {
-        const { value, metadata: sourceIndex } = stripMetadata(tracedValue);
+        result = tracedResult.map((tracedValue) => {
+          const { value, metadata: sourceIndex } = stripMetadata(tracedValue);
 
-        return {
+          return {
+            value,
+            sourceIndex,
+          };
+        });
+      } else if (includeSourceIndex) {
+        result = fn(data).map((value, sourceIndex) => ({
           value,
           sourceIndex,
-        };
-      });
-    } else if (includeSourceIndex) {
-      result = fn(data).map((value, sourceIndex) => ({
-        value,
-        sourceIndex,
-      }));
-    } else {
-      result = fn(data);
+        }));
+      } else {
+        result = fn(data);
+      }
     }
   }
 
@@ -158,7 +207,7 @@ function getByPath(data, derivedFields = null, path, options = {}) {
   return result;
 }
 
-function navigatePath(obj, path) {
+export function navigatePath(obj, path) {
   return path.split(".").reduce((current, key) => current?.[key], obj);
 }
 

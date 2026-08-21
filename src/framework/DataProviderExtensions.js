@@ -1,3 +1,4 @@
+// DataProviderExtensions.js
 "use client";
 
 import React from "react";
@@ -12,15 +13,25 @@ export default function DataProviderExtensions({
   fieldInterceptors = {},
   children,
 }) {
+  const parent = React.use(DataExtensionsContext);
+
   const value = React.useMemo(
     () => ({
-      derivedFields,
-      fieldInterceptors,
+      derivedFields: {
+        ...parent.derivedFields,
+        ...derivedFields,
+      },
+      fieldInterceptors: {
+        ...parent.fieldInterceptors,
+        ...fieldInterceptors,
+      },
     }),
-    [derivedFields, fieldInterceptors]
+    [parent, derivedFields, fieldInterceptors]
   );
 
   return (
-    <DataExtensionsContext value={value}>{children}</DataExtensionsContext>
+    <DataExtensionsContext value={value}>
+      {children}
+    </DataExtensionsContext>
   );
 }
