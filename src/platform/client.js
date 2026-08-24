@@ -1,14 +1,134 @@
 "use client";
 
-import React from 'react';
+import React from "react";
+import clsx from "clsx";
+import DataProviderGeneric from 
+  '../framework/DataProviderGeneric';
+import DataProviderExtensions from "../framework/DataProviderExtensions";
 import { useField, useData } from "../framework/DataProviderGeneric";
-import { useIterationField } from "../framework/Iterator";
+import { useIterationField, useIterationData } from "../framework/Iterator";
+import { Sun, Moon, Zap } from "react-feather";
+import { 
+  registerPlatformComponents
+} from "../framework/PlatformComponentRegistry";
+import Cookies from "js-cookie";
+import { createCssVars } from "../helpers"
 
+function ClientData({ api, children }) {
+  const data = {
+    themeCssVars: Object.fromEntries(
+      Object.entries(api.useData("themes")).map(
+        ([theme, values]) => [
+          theme,
+          createCssVars(values)
+        ]
+      )
+    ),
 
-export function Result({ field, className }) {
+    selectedTheme: api.useData("initialTheme"),
+
+    themeIcons: new Map([
+      ["light", Sun],
+      ["dark", Moon],
+      ["electric", Zap]
+    ])
+  };
+
+  return (
+    <DataProviderExtensions
+      derivedFields={{
+        selectedThemeCssVars: (data) =>
+          data.themeCssVars[data.selectedTheme]
+      }}
+    >
+      <DataProviderGeneric
+        schema={data}
+      >
+        {children}
+      </DataProviderGeneric>
+    </DataProviderExtensions>
+  );
+}
+
+function IconToggle({
+  className,
+  field,
+  iconMapField
+}) {
+  const [value, setValue] = useField(field);
+  const iconMap = useData(iconMapField);
+
+  const modes = [...iconMap.keys()];
+  const IconComponent = iconMap.get(value);
+
+  if (!IconComponent || modes.length === 0) {
+    return null;
+  }
+
+  function toggle() {
+    const currentIndex = modes.indexOf(value);
+    const nextIndex = (currentIndex + 1) % modes.length;
+
+    setValue(modes[nextIndex]);
+  }
+
+  return (
+    <button
+      className={className}
+      onClick={toggle}
+    >
+      <IconComponent size="1.5rem" />
+    </button>
+  );
+}
+
+function UpdateCookie({ field, cookie }) {
   const value = useData(field);
 
-  return <pre className={className}>
-  	{`${field}: ${JSON.stringify(value, null, 4)}`}
-  </pre>;
+  React.useEffect(() => {
+    if (value == null) {
+      return;
+    }
+
+    Cookies.set(cookie, value);
+  }, [value, cookie]);
+
+  return null;
 }
+
+function UpdateHtmlDataAttr({ field, attr }) {
+  const value = useData(field);
+  
+  React.useEffect(() => {
+    if (value == null) {
+      return;
+    }
+
+    document.documentElement.dataset[attr] = value;
+  }, [value, attr]);
+
+  return null;
+}
+
+export function UpdateCssVars({ field, selector="html" }) {
+  const cssVars = useData(field);
+
+  React.useEffect(() => {
+    const element = document.querySelector(selector);
+
+    if (!element || !cssVars) {
+      return;
+    }
+
+    for (const [name, value] of Object.entries(cssVars)) {
+      element.style.setProperty(name, value);
+    }
+  }, [cssVars, selector]);
+
+  return null;
+}
+
+registerPlatformComponents({
+  ClientData, IconToggle, UpdateCookie,
+  UpdateHtmlDataAttr, UpdateCssVars
+});

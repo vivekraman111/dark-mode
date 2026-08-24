@@ -1,0 +1,57 @@
+.App {
+	min-height: 100dvh;
+	font-family: sans-serif;
+}
+
+.site-html {
+	background: var(--color-background);
+	color: var(--color-text);
+}
+
+.site-header {
+	padding: 16px 32px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.site-logo {
+	text-decoration: none;
+	color: inherit;
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+.dark-light-toggle {
+	background: transparent;
+	border: none;
+	color: inherit;
+	cursor: pointer;
+}
+
+.main-site {
+	padding: 32px;
+}
+
+.colors {
+	margin-top: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.color-row {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+}
+
+.color-box {
+	width: 48px;
+	aspect-ratio: 1 / 1;
+	background: var(--color);
+	border: 2px solid var(--color-text);
+}
+
+.color-label {
+	text-transform: capitalize;
+}

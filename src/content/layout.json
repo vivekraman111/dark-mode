@@ -1,0 +1,81 @@
+{
+    "type": "Box",
+    "props": {
+      "as": "html",
+      "className": "site-html App",
+      "attrsFieldName": "htmlAttrs",
+      "cssVarsFieldName": "initialThemeCssVars"
+    },
+    "children": [
+      {
+        "type": "ClientData",
+        "children": [
+          {
+            "type": "Box",
+            "props": {
+              "as": "body",
+              "className": "body"
+            },
+            "children": [
+              {
+                "type": "header",
+                "props": {
+                  "className": "site-header"
+                },
+                "children": [
+                  {
+                    "type": "Link",
+                    "props": {
+                      "className": "site-logo",
+                      "href": "/"
+                    },
+                    "children": [
+                      {
+                        "type": "Text",
+                        "value": "My Website"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "IconToggle",
+                    "props": {
+                      "className": "dark-light-toggle",
+                      "field": "selectedTheme",
+                      "iconMapField": "themeIcons"
+                    }
+                  },
+                  {
+                    "type": "UpdateCookie",
+                    "props": {
+                      "field": "selectedTheme",
+                      "cookie": "theme"
+                    }
+                  },
+                  {
+                    "type": "UpdateHtmlDataAttr",
+                    "props": {
+                      "field": "selectedTheme",
+                      "attr": "theme"
+                    }
+                  },
+                  {
+                    "type": "UpdateCssVars",
+                    "props": {
+                      "field": "selectedThemeCssVars",
+                      "selector": ".site-html"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "Children",
+                "props": {
+                  "fieldName": "children"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

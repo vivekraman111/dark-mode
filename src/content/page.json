@@ -1,0 +1,58 @@
+{
+    "type": "main",
+    "props": {
+      "className": "main-site"
+    },
+    "children": [
+      {
+        "type": "h1",
+        "props": {
+          "className": "title"
+        },
+        "children": [
+          {
+            "type": "Text",
+            "value": "Theme colors"
+          }
+        ]
+      },
+      {
+        "type": "div",
+        "props": {
+          "className": "colors"
+        },
+        "children": [
+          {
+            "type": "ServerIterator",
+            "props": {
+              "dataArrField": "colorPalette"
+            },
+            "children": [
+              {
+                "type": "div",
+                "props": {
+                  "className": "color-row"
+                },
+                "children": [
+                  {
+                    "type": "Box",
+                    "props": {
+                      "className": "color-box",
+                      "cssVarsFieldNameIterator": "color"
+                    }
+                  },
+                  {
+                    "type": "Box",
+                    "props": {
+                      "className": "color-label",
+                      "fieldNameIterator": "label"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
