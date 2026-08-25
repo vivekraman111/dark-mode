@@ -41,7 +41,7 @@ export default async function Home() {
 
   return (
     <ServerRenderer
-      tree={post}
+      tree={page}
       api={api}
     />
   );

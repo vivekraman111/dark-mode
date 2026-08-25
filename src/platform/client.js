@@ -12,20 +12,15 @@ import {
   registerPlatformComponents
 } from "../framework/PlatformComponentRegistry";
 import Cookies from "js-cookie";
-import { createCssVars } from "../helpers"
 
-function ClientData({ api, children }) {
+export function ClientData({
+  themeCssVars,
+  selectedTheme,
+  children
+}) {
   const data = {
-    themeCssVars: Object.fromEntries(
-      Object.entries(api.useData("themes")).map(
-        ([theme, values]) => [
-          theme,
-          createCssVars(values)
-        ]
-      )
-    ),
-
-    selectedTheme: api.useData("initialTheme"),
+    themeCssVars,
+    selectedTheme,
 
     themeIcons: new Map([
       ["light", Sun],

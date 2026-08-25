@@ -5,6 +5,34 @@ import clsx from "clsx";
 import { 
   registerPlatformComponents
 } from "../framework/PlatformComponentRegistry";
+import { ClientData } from "./client";
+import { createCssVars } from "../helpers"
+
+function ClientDataWrapper({
+  api,
+  children
+}) {
+  const themeCssVars = Object.fromEntries(
+    Object.entries(api.useData("themes")).map(
+      ([theme, values]) => [
+        theme,
+        createCssVars(values)
+      ]
+    )
+  );
+
+  const selectedTheme =
+    api.useData("initialTheme");
+
+  return (
+    <ClientData
+      themeCssVars={themeCssVars}
+      selectedTheme={selectedTheme}
+    >
+      {children}
+    </ClientData>
+  );
+}
 
 export function Box({
   api,
@@ -83,5 +111,5 @@ function Children({ api, fieldName }) {
 
 
 registerPlatformComponents({
-  Box, Link, Children
+  ClientDataWrapper, Box, Link, Children
 });
