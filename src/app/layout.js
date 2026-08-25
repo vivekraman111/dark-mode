@@ -9,6 +9,8 @@ import ServerRenderer from
 import { createCssVars } from "../helpers";
 import data from "../content/data.json"
 import layout from "../content/layout.json";
+import "../platform/server";
+import "../platform/client";
 
 export const metadata = {
   title: "Website Theme demo",

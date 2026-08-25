@@ -9,6 +9,8 @@ import ServerDataApi from
 import ServerRenderer from
   "../framework/ServerRenderer.js";
 import post from "../content/post.json";
+import "../platform/server";
+import "../platform/client";
 
 export default async function Home() {
   const cookieStore = await cookies();
