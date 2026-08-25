@@ -1,3 +1,4 @@
+// layout.js
 import "./reset.css";
 import "../content/styles.css";
 import { cookies } from "next/headers";
@@ -40,7 +41,10 @@ export default async function RootLayout({ children }) {
       style={api.useData("initialThemeCssVars")}
     >
       <body>
-        {children}
+        <ServerRenderer
+          tree={layout}
+          api={api}
+        />
       </body>
     </html>
   );

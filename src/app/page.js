@@ -1,3 +1,4 @@
+// page.js
 import DataProviderGeneric from "../framework/DataProviderGeneric";
 import { renderNode } from "../framework/PostRenderer";
 import page from "../content/page.json";
