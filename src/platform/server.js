@@ -7,6 +7,12 @@ import {
 } from "../framework/PlatformComponentRegistry";
 import { ClientData } from "./client";
 import { createCssVars } from "../helpers"
+import {
+  IconToggle,
+  UpdateCookie,
+  UpdateHtmlDataAttr,
+  UpdateCssVars,
+} from "./client";
 
 function ClientDataWrapper({
   api,
@@ -110,5 +116,9 @@ function Children({ api, fieldName }) {
 }
 
 registerPlatformComponents({
-  ClientDataWrapper, Box, Link, Children
+  ClientDataWrapper, Box, Link, Children,
+  IconToggle,
+  UpdateCookie,
+  UpdateHtmlDataAttr,
+  UpdateCssVars,
 });

@@ -45,7 +45,7 @@ export function ClientData({
   );
 }
 
-function IconToggle({
+export function IconToggle({
   className,
   field,
   iconMapField
@@ -77,7 +77,7 @@ function IconToggle({
   );
 }
 
-function UpdateCookie({ field, cookie }) {
+export function UpdateCookie({ field, cookie }) {
   const value = useData(field);
 
   React.useEffect(() => {
@@ -91,7 +91,7 @@ function UpdateCookie({ field, cookie }) {
   return null;
 }
 
-function UpdateHtmlDataAttr({ field, attr }) {
+export function UpdateHtmlDataAttr({ field, attr }) {
   const value = useData(field);
   
   React.useEffect(() => {
@@ -123,7 +123,7 @@ export function UpdateCssVars({ field, selector="html" }) {
   return null;
 }
 
-registerPlatformComponents({
-  IconToggle, UpdateCookie,
-  UpdateHtmlDataAttr, UpdateCssVars
-});
+// registerPlatformComponents({
+//   IconToggle, UpdateCookie,
+//   UpdateHtmlDataAttr, UpdateCssVars
+// });
