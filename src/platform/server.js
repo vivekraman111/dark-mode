@@ -109,7 +109,6 @@ function Children({ api, fieldName }) {
   return api.useData(fieldName);
 }
 
-
 registerPlatformComponents({
   ClientDataWrapper, Box, Link, Children
 });

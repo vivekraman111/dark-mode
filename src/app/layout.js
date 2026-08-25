@@ -30,6 +30,10 @@ export default async function RootLayout({ children }) {
       initialTheme,
     },
     derivedFields: {
+      htmlAttrs: (data) => ({
+        lang: "en",
+        "data-theme": data.initialTheme,
+      }),
       initialThemeCssVars: (data) =>
         createCssVars(
           data.themes[data.initialTheme]
@@ -39,7 +43,8 @@ export default async function RootLayout({ children }) {
 
   return (
     <html
-      lang="en"
+      {...api.useData("htmlAttrs")}
+      className="site-html App"
       style={api.useData("initialThemeCssVars")}
     >
       <body>

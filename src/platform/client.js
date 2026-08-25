@@ -124,6 +124,6 @@ export function UpdateCssVars({ field, selector="html" }) {
 }
 
 registerPlatformComponents({
-  ClientData, IconToggle, UpdateCookie,
+  IconToggle, UpdateCookie,
   UpdateHtmlDataAttr, UpdateCssVars
 });
