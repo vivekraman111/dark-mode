@@ -7,6 +7,7 @@ import ServerDataApi from
   "../framework/ServerDataApi.js";
 import ServerRenderer from
   "../framework/ServerRenderer.js";
+import post from "../content/post.json";
 
 export default async function Home() {
   const cookieStore = await cookies();
@@ -37,7 +38,7 @@ export default async function Home() {
 
   return (
     <ServerRenderer
-      tree={page}
+      tree={post}
       api={api}
     />
   );
