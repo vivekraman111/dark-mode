@@ -6,7 +6,6 @@ import ServerDataApi from
   "../framework/ServerDataApi.js";
 import ServerRenderer from
   "../framework/ServerRenderer.js";
-import post from "../content/post.json";
 import "../platform/server";
 
 export default async function Home() {
