@@ -1,6 +1,4 @@
 // page.js
-import DataProviderGeneric from "../framework/DataProviderGeneric";
-import { renderNode } from "../framework/PostRenderer";
 import page from "../content/page.json";
 import data from "../content/data.json";
 import { cookies } from "next/headers";
@@ -10,7 +8,6 @@ import ServerRenderer from
   "../framework/ServerRenderer.js";
 import post from "../content/post.json";
 import "../platform/server";
-import "../platform/client";
 
 export default async function Home() {
   const cookieStore = await cookies();
