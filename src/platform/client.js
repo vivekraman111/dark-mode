@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import clsx from "clsx";
 import DataProviderGeneric from 
   '../framework/DataProviderGeneric';
 import DataProviderExtensions from "../framework/DataProviderExtensions";
@@ -122,8 +121,3 @@ export function UpdateCssVars({ field, selector="html" }) {
 
   return null;
 }
-
-// registerPlatformComponents({
-//   IconToggle, UpdateCookie,
-//   UpdateHtmlDataAttr, UpdateCssVars
-// });

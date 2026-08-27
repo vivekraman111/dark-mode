@@ -5,6 +5,7 @@ import ServerIterator from "./ServerIterator";
 
 import {
   getPlatformComponent,
+  getServerComponent,
 } from "./PlatformComponentRegistry";
 
 import {
@@ -40,6 +41,26 @@ export function createServerTree(
   }
 
   //
+  // Server component?
+  //
+  const ServerComponent =
+    getServerComponent(node.type);
+
+  if (ServerComponent) {
+    return React.createElement(
+      ServerComponent,
+      {
+        ...node.props,
+        api,
+      },
+      createServerChildren(
+        node.children,
+        api
+      )
+    );
+  }
+
+  //
   // Platform component?
   //
   const ReactComponent =
@@ -48,10 +69,7 @@ export function createServerTree(
   if (ReactComponent) {
     return React.createElement(
       ReactComponent,
-      {
-        ...node.props,
-        api,
-      },
+      node.props,
       createServerChildren(
         node.children,
         api

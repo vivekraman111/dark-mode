@@ -1,18 +1,13 @@
 // server.js
 
 import React from "react";
-import clsx from "clsx";
 import { 
-  registerPlatformComponents
+  registerPlatformComponents,
+  registerServerComponents
 } from "../framework/PlatformComponentRegistry";
-import { ClientData } from "./client";
 import { createCssVars } from "../helpers"
-import {
-  IconToggle,
-  UpdateCookie,
-  UpdateHtmlDataAttr,
-  UpdateCssVars,
-} from "./client";
+import { ClientData, IconToggle, UpdateCookie,
+  UpdateHtmlDataAttr, UpdateCssVars } from "./client";
 
 function ClientDataWrapper({
   api,
@@ -115,10 +110,12 @@ function Children({ api, fieldName }) {
   return api.useData(fieldName);
 }
 
+
+registerServerComponents({
+  ClientDataWrapper, Box, Link, Children
+});
+
 registerPlatformComponents({
-  ClientDataWrapper, Box, Link, Children,
-  IconToggle,
-  UpdateCookie,
-  UpdateHtmlDataAttr,
-  UpdateCssVars,
+  IconToggle, UpdateCookie,
+  UpdateHtmlDataAttr, UpdateCssVars
 });
